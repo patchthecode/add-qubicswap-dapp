@@ -2,14 +2,11 @@
     "proposals_name": "Propositions",
     "proposals_description": "Découvrez ce qui attend Qubic.",
     "proposals_featured_description": "Une plateforme de pointe où la communauté Qubic façonne l'avenir. Votez pour de nouvelles fonctionnalités, améliorations et orientations stratégiques.",
-    "qx_name": "Qx",
-    "qx_description": "1er échange décentralisé de Qubic.",
-    "qx_featured_description": "QX est un échange décentralisé fonctionnant comme un contrat intelligent sur le réseau Qubic.",
     "qearn_name": "QEarn",
     "qearn_description": "Gagnez des récompenses en stakant du $QUBIC.",
     "qxboard_name": "QXBoard",
     "qxboard_description": "Interface utilisateur QX conviviale pour les actifs Qubic.",
-    "qxtrade_name": "QXTrade",
+    "qxtrade_name": "QubicTrade",
     "qxtrade_description": "Interface utilisateur QX conviviale pour les actifs Qubic.",
     "opensea_name": "OpenSea",
     "opensea_description": "Place de marché NFT.",
@@ -20,7 +17,5 @@
     "qbay_name": "QubicBay",
     "qbay_description": "Votre passerelle vers l'univers NFT",
     "qbond_name": "QBond",
-    "qbond_description": "Gagnez des rendements. Restez liquide. Tradez à tout moment",
-    "rl_name": "Random Lottery",
-    "rl_description": "Loterie décentralisée sur Qubic"
+    "qbond_description": "Gagnez des rendements. Restez liquide. Tradez à tout moment"
 }
