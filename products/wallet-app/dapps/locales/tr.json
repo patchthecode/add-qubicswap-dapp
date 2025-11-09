@@ -2,14 +2,11 @@
     "proposals_name": "Öneriler",
     "proposals_description": "Qubic için sırada ne olduğunu görün.",
     "proposals_featured_description": "Qubic topluluğunun geleceği şekillendirdiği yenilikçi bir platform. Yeni özelliklere, iyileştirmelere ve stratejik yönlere oy verin.",
-    "qx_name": "Qx",
-    "qx_description": "İlk Qubic merkeziyetsiz borsası.",
-    "qx_featured_description": "QX, Qubic ağı üzerinde bir akıllı sözleşme olarak çalışan merkeziyetsiz bir borsadır.",
     "qearn_name": "QEarn",
     "qearn_description": "$QUBIC stake ederek ödüller kazanın.",
     "qxboard_name": "QXBoard",
     "qxboard_description": "Qubic varlıkları için kullanıcı dostu QX arayüzü.",
-    "qxtrade_name": "QXTrade",
+    "qxtrade_name": "QubicTrade",
     "qxtrade_description": "Qubic varlıkları için kullanıcı dostu QX arayüzü.",
     "opensea_name": "OpenSea",
     "opensea_description": "NFT pazaryeri.",
@@ -20,7 +17,5 @@
     "qbay_name": "QubicBay",
     "qbay_description": "NFT Evrenine Açılan Kapınız",
     "qbond_name": "QBond",
-    "qbond_description": "Gelir elde edin. Likit kalın. İstediğiniz zaman işlem yapın",
-    "rl_name": "Random Lottery",
-    "rl_description": "Qubic'te merkezi olmayan piyango"
+    "qbond_description": "Gelir elde edin. Likit kalın. İstediğiniz zaman işlem yapın"
 }

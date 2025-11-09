@@ -2,7 +2,8 @@
     "version": "1.0.0",
     "topApps": [
         "explorer_app_id",
-        "proposals_app_id"
+        "proposals_app_id",
+        "community_voting_app_id"
     ],
     "dapps": [
         {
@@ -48,13 +49,6 @@
             "descriptionId": "qxtrade_description"
         },
         {
-            "id": "qx_app_id",
-            "nameId": "qx_name",
-            "icon": "",
-            "url": "https://qx.qubic.org",
-            "descriptionId": "qx_description"
-        },
-        {
             "id": "qbay_app_id",
             "nameId": "qbay_name",
             "icon": "",
@@ -67,13 +61,6 @@
             "icon": "",
             "url": "https://www.qbond.org/",
             "descriptionId": "qbond_description"
-        },
-        {
-            "id": "rl_app_id",
-            "nameId": "rl_name",
-            "icon": "",
-            "url": "https://qubicrl.org/",
-            "descriptionId": "rl_description"
         }
     ]
 }
