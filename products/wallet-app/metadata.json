@@ -1,0 +1,7 @@
+{
+    "terms": {
+        "version": "1.0.0",
+        "requiresAcceptance": true,
+        "contentUrl": "/terms/v1.0.0.html"
+    }
+}
