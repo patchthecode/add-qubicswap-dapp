@@ -1,3 +1,19 @@
+# [1.3.0](https://github.com/qubic/static/compare/v1.2.0...v1.3.0) (2025-11-09)
+
+
+### Features
+
+* add existing tokens websites ([7a7f5c4](https://github.com/qubic/static/commit/7a7f5c47c3356c158d76757cdb7e64cbd790742b))
+* updates for mobile wallet explorer apps ([d6c3994](https://github.com/qubic/static/commit/d6c3994fbc9235eb1786fd54a287da47da82d675))
+
+# [1.3.0-rc.1](https://github.com/qubic/static/compare/v1.2.0...v1.3.0-rc.1) (2025-11-09)
+
+
+### Features
+
+* add existing tokens websites ([7a7f5c4](https://github.com/qubic/static/commit/7a7f5c47c3356c158d76757cdb7e64cbd790742b))
+* updates for mobile wallet explorer apps ([d6c3994](https://github.com/qubic/static/commit/d6c3994fbc9235eb1786fd54a287da47da82d675))
+
 # [1.2.0](https://github.com/qubic/static/compare/v1.1.1...v1.2.0) (2025-10-31)
 
 
