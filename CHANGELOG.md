@@ -1,3 +1,10 @@
+# [1.4.0-rc.1](https://github.com/qubic/static/compare/v1.3.0...v1.4.0-rc.1) (2025-11-17)
+
+
+### Features
+
+* re-position warning for terms ([d5b41a4](https://github.com/qubic/static/commit/d5b41a41f8ecd97836c148787a5c97c5e81ff676))
+
 # [1.3.0](https://github.com/qubic/static/compare/v1.2.0...v1.3.0) (2025-11-09)
 
 
