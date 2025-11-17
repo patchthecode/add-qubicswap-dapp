@@ -34,7 +34,8 @@
         },
         {
           "id": 9,
-          "name": "Transfer Share Management Rights"
+          "name": "Transfer Share Management Rights",
+          "fee": 0
         }
       ]
     },
@@ -369,7 +370,8 @@
         },
         {
           "id": 16,
-          "name": "Transfer Share Management Rights"
+          "name": "Transfer Share Management Rights",
+          "fee": 100
         },
         {
           "id": 17,
@@ -428,7 +430,8 @@
         },
         {
           "id": 11,
-          "name": "Transfer Share Management Rights"
+          "name": "Transfer Share Management Rights",
+          "fee": 100
         }
       ]
     },
@@ -475,7 +478,8 @@
         },
         {
           "id": 9,
-          "name": "Transfer Share Management Rights"
+          "name": "Transfer Share Management Rights",
+          "fee": 100
         }
       ]
     },
