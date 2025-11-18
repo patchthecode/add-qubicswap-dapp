@@ -298,9 +298,34 @@
 
     <h2>10. Contact Information</h2>
     <p>
-      Email: <a href="mailto:support@qubic.org">support@qubic.org</a>
+      Email: <span id="contact-email" style="user-select: all; cursor: pointer;" title="Click to copy"></span>
     </p>
   </div>
+
+  <script>
+    // Obfuscated email to prevent scraping
+    (function() {
+      const parts = ['wallet', '@', 'qubic', '.', 'org'];
+      const email = parts.join('');
+      const emailSpan = document.getElementById('contact-email');
+      emailSpan.textContent = email;
+
+      // Click to copy
+      emailSpan.addEventListener('click', function() {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(email).then(function() {
+            const original = emailSpan.textContent;
+            emailSpan.textContent = '✓ Copied!';
+            emailSpan.style.color = '#47CD89';
+            setTimeout(function() {
+              emailSpan.textContent = original;
+              emailSpan.style.color = '';
+            }, 1500);
+          });
+        }
+      });
+    })();
+  </script>
 </body>
 
 </html>
