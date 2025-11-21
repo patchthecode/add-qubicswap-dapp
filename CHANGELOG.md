@@ -1,3 +1,25 @@
+# [1.5.0](https://github.com/qubic/static/compare/v1.4.0...v1.5.0) (2025-11-18)
+
+
+### Features
+
+* add fee attribute to Transfer Share Management Rights procedures ([4059c5a](https://github.com/qubic/static/commit/4059c5ae90820910ec6829c525dc55aeefd3b318))
+* add Terms of Service v1.0.0 for Wallet App - draft for testing ([3f5cc75](https://github.com/qubic/static/commit/3f5cc75d5194dc1e653dcc166de4a16c283c711d))
+* adding wallet app terms of services reference to the index.html ([090cf70](https://github.com/qubic/static/commit/090cf708b51db925be8a66cf28fc0b6a578d1346))
+* simplification to handle a single terms file for the wallet app ([#37](https://github.com/qubic/static/issues/37)) ([541005d](https://github.com/qubic/static/commit/541005df8451f7758ec7ed8f1e207857ec3f9046))
+* update terms contact to wallet@qubic.org with anti-spam protection ([6aad54a](https://github.com/qubic/static/commit/6aad54ac749f90e8072c80ae2a5f9fa9fb78e76b))
+
+# [1.5.0-rc.1](https://github.com/qubic/static/compare/v1.4.0...v1.5.0-rc.1) (2025-11-18)
+
+
+### Features
+
+* add fee attribute to Transfer Share Management Rights procedures ([4059c5a](https://github.com/qubic/static/commit/4059c5ae90820910ec6829c525dc55aeefd3b318))
+* add Terms of Service v1.0.0 for Wallet App - draft for testing ([3f5cc75](https://github.com/qubic/static/commit/3f5cc75d5194dc1e653dcc166de4a16c283c711d))
+* adding wallet app terms of services reference to the index.html ([090cf70](https://github.com/qubic/static/commit/090cf708b51db925be8a66cf28fc0b6a578d1346))
+* simplification to handle a single terms file for the wallet app ([#37](https://github.com/qubic/static/issues/37)) ([541005d](https://github.com/qubic/static/commit/541005df8451f7758ec7ed8f1e207857ec3f9046))
+* update terms contact to wallet@qubic.org with anti-spam protection ([6aad54a](https://github.com/qubic/static/commit/6aad54ac749f90e8072c80ae2a5f9fa9fb78e76b))
+
 # [1.4.0](https://github.com/qubic/static/compare/v1.3.0...v1.4.0) (2025-11-17)
 
 
