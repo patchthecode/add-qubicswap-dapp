@@ -191,7 +191,8 @@
 
     <div class="highlight">
       <p><strong>IMPORTANT: This is NOT an Exchange</strong></p>
-      <p>We are a software provider. The App is self-custody wallet software and a transaction-signing interface for blockchain networks.</p>
+      <p>We are a software provider. The App is self-custody wallet software and a transaction-signing interface for
+        blockchain networks.</p>
     </div>
 
     <p>The App allows you to manage your own private keys locally on your device and to create, review and authorize
@@ -227,12 +228,14 @@
     </div>
 
     <p>
-      All transactions you authorize through the App are executed peer-to-peer directly on the Qubic blockchain network by
+      All transactions you authorize through the App are executed peer-to-peer directly on the Qubic blockchain network
+      by
       validators. The App does not act as an intermediary or execute transactions on your behalf.
     </p>
 
     <p>
-      We do not control, operate, or manage the Qubic blockchain network. We have no control over transaction confirmation, execution speed, or network fees.
+      We do not control, operate, or manage the Qubic blockchain network. We have no control over transaction
+      confirmation, execution speed, or network fees.
     </p>
 
     <p><strong>The App does NOT:</strong></p>
@@ -320,7 +323,8 @@
     </div>
 
     <p>
-      We do not store or recover your private keys or wallet information. If you lose your keys, we cannot assist in recovering your assets.
+      We do not store or recover your private keys or wallet information. If you lose your keys, we cannot assist in
+      recovering your assets.
     </p>
 
     <p><strong>We cannot and will not:</strong></p>
@@ -349,20 +353,20 @@
 
   <script>
     // Obfuscated email to prevent scraping
-    (function() {
+    (function () {
       const parts = ['wallet', '@', 'qubic', '.', 'org'];
       const email = parts.join('');
       const emailSpan = document.getElementById('contact-email');
       emailSpan.textContent = email;
 
       // Click to copy
-      emailSpan.addEventListener('click', function() {
+      emailSpan.addEventListener('click', function () {
         if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(email).then(function() {
+          navigator.clipboard.writeText(email).then(function () {
             const original = emailSpan.textContent;
             emailSpan.textContent = '✓ Copied!';
             emailSpan.style.color = '#47CD89';
-            setTimeout(function() {
+            setTimeout(function () {
               emailSpan.textContent = original;
               emailSpan.style.color = '';
             }, 1500);
