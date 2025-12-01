@@ -1,3 +1,10 @@
+# [1.7.0-rc.2](https://github.com/qubic/static/compare/v1.7.0-rc.1...v1.7.0-rc.2) (2025-12-01)
+
+
+### Bug Fixes
+
+* remove [skip ci] from release commits to enable automatic deployment ([82de990](https://github.com/qubic/static/commit/82de990ea54ea8beb2f394b7b4d8c012b9bd2019))
+
 # [1.7.0-rc.1](https://github.com/qubic/static/compare/v1.6.0...v1.7.0-rc.1) (2025-12-01)
 
 
