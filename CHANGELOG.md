@@ -1,3 +1,11 @@
+# [1.7.0-rc.1](https://github.com/qubic/static/compare/v1.6.0...v1.7.0-rc.1) (2025-12-01)
+
+
+### Features
+
+* improve smart contracts script to preserve custom fields and add new contracts ([13ddb54](https://github.com/qubic/static/commit/13ddb548339646f6b19da59d57245b50cebc40dc))
+* proposalUrl added for qpi sc ([0c49802](https://github.com/qubic/static/commit/0c49802b4e4ea8b5bfe483695dd83c0f8dc49e9e))
+
 # [1.6.0](https://github.com/qubic/static/compare/v1.5.0...v1.6.0) (2025-11-21)
 
 
