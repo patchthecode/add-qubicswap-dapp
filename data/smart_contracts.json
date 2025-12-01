@@ -115,6 +115,10 @@
         {
           "id": 7,
           "name": "Distribute Qu to Shareholders"
+        },
+        {
+          "id": 8,
+          "name": "Burn Qubic for Contract"
         }
       ]
     },
@@ -510,6 +514,14 @@
         {
           "id": 1,
           "name": "Buy Ticket"
+        },
+        {
+          "id": 2,
+          "name": "Set Price"
+        },
+        {
+          "id": 3,
+          "name": "Set Schedule"
         }
       ]
     },
@@ -553,6 +565,29 @@
         {
           "id": 8,
           "name": "Update CFA"
+        }
+      ]
+    },
+    {
+      "filename": "QIP.h",
+      "name": "QIP",
+      "label": "QIp",
+      "githubUrl": "https://github.com/qubic/core/blob/main/src/contracts/QIP.h",
+      "proposalUrl": "https://github.com/nineisten/qubicICOportal/blob/f6d09a05761f04af3556816c628fae66482889cb/README.md",
+      "contractIndex": 18,
+      "address": "SAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABNI",
+      "procedures": [
+        {
+          "id": 1,
+          "name": "Create ICO"
+        },
+        {
+          "id": 2,
+          "name": "Buy Token"
+        },
+        {
+          "id": 3,
+          "name": "Transfer Share Management Rights"
         }
       ]
     }

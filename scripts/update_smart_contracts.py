@@ -71,10 +71,15 @@ def split_camel_or_snake(name: str) -> List[str]:
     if "_" in name:
         parts = name.split("_")
     else:
-        parts = re.sub(r"(?<!^)(?=[A-Z])", " ", name).split()
+        # Split on camelCase boundaries while preserving acronyms:
+        # - Split between lowercase and uppercase (e.g., "setting" + "CFB")
+        # - Split at end of acronym before next word (e.g., "CFB" + "And")
+        # - Keep single uppercase + lowercase together (e.g., "MBond" stays as one)
+        parts = re.sub(r"(?<=[a-z])(?=[A-Z])|(?<=[A-Z][A-Z])(?=[A-Z][a-z])", " ", name).split()
     words: List[str] = []
     for p in parts:
-        words.extend(re.findall(r"[A-Za-z]+|\d+", p))
+        # Match version patterns (v1, V2), letter sequences, or digit sequences
+        words.extend(re.findall(r"[vV]\d+|[A-Za-z]+|\d+", p))
     return [w for w in words if w]
 
 SMALL_WORDS = {
@@ -380,15 +385,41 @@ def merge_contracts(existing: List[Dict[str, Any]], fresh: List[Dict[str, Any]])
         # Note: All other fields in 'ex' (like proposalUrl, etc.) are preserved automatically
         # since we're updating the existing dict in-place rather than replacing it
 
-        ex_list = normalize_procs_to_list(ex.get("procedures", []))
+        # Merge procedures while preserving custom fields (like 'fee')
+        ex_procs = ex.get("procedures", [])
         new_list = normalize_procs_to_list(new.get("procedures", []))
-        have = {p["id"] for p in ex_list}
-        for p in new_list:
-            if p["id"] not in have:
-                ex_list.append(p)
-                have.add(p["id"])
-        ex_list.sort(key=lambda x: x["id"])
-        ex["procedures"] = ex_list
+
+        # Build a map of existing procedures by id, preserving all fields
+        ex_by_id: Dict[int, Dict[str, Any]] = {}
+        for p in ex_procs:
+            if isinstance(p, dict) and "id" in p:
+                try:
+                    ex_by_id[int(p["id"])] = p
+                except (TypeError, ValueError):
+                    continue
+
+        # Merge: update name from new, preserve custom fields from existing
+        merged_procs: List[Dict[str, Any]] = []
+        seen_ids: set[int] = set()
+
+        for new_p in new_list:
+            pid = new_p["id"]
+            if pid in ex_by_id:
+                # Preserve existing procedure entirely (name + custom fields)
+                merged_procs.append(ex_by_id[pid])
+            else:
+                # New procedure, add with auto-generated name
+                merged_procs.append(new_p)
+            seen_ids.add(pid)
+
+        # Keep any existing procedures that are no longer in the fresh list
+        # (in case they were manually added)
+        for pid, p in ex_by_id.items():
+            if pid not in seen_ids:
+                merged_procs.append(p)
+
+        merged_procs.sort(key=lambda x: x["id"])
+        ex["procedures"] = merged_procs
 
     return existing
 
