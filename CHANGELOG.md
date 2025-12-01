@@ -1,3 +1,16 @@
+# [1.7.0](https://github.com/qubic/static/compare/v1.6.0...v1.7.0) (2025-12-01)
+
+
+### Bug Fixes
+
+* remove [skip ci] from release commits to enable automatic deployment ([82de990](https://github.com/qubic/static/commit/82de990ea54ea8beb2f394b7b4d8c012b9bd2019))
+
+
+### Features
+
+* improve smart contracts script to preserve custom fields and add new contracts ([13ddb54](https://github.com/qubic/static/commit/13ddb548339646f6b19da59d57245b50cebc40dc))
+* proposalUrl added for qpi sc ([0c49802](https://github.com/qubic/static/commit/0c49802b4e4ea8b5bfe483695dd83c0f8dc49e9e))
+
 # [1.7.0-rc.2](https://github.com/qubic/static/compare/v1.7.0-rc.1...v1.7.0-rc.2) (2025-12-01)
 
 
