@@ -1,3 +1,30 @@
+# [1.6.0](https://github.com/qubic/static/compare/v1.5.0...v1.6.0) (2025-11-21)
+
+
+### Features
+
+* update wallet terms for Apple App Store compliance ([27c023d](https://github.com/qubic/static/commit/27c023dfc43e962c739c0890fea1cb6e1359d6b4))
+* update wallet terms for Apple compliance and improve dApp descriptions ([95d5dca](https://github.com/qubic/static/commit/95d5dca08507f57d1a1c8290d5f6fb1fba288fdc))
+* update wallet terms for Apple compliance and improve dApp descriptions ([6893ad5](https://github.com/qubic/static/commit/6893ad59b7de73bf0c36b53fad0da2bd6f9c08e6))
+
+# [1.6.0-rc.1](https://github.com/qubic/static/compare/v1.5.0...v1.6.0-rc.1) (2025-11-21)
+
+
+### Features
+
+* update wallet terms for Apple App Store compliance ([27c023d](https://github.com/qubic/static/commit/27c023dfc43e962c739c0890fea1cb6e1359d6b4))
+* update wallet terms for Apple compliance and improve dApp descriptions ([95d5dca](https://github.com/qubic/static/commit/95d5dca08507f57d1a1c8290d5f6fb1fba288fdc))
+* update wallet terms for Apple compliance and improve dApp descriptions ([6893ad5](https://github.com/qubic/static/commit/6893ad59b7de73bf0c36b53fad0da2bd6f9c08e6))
+
+# [1.5.0-rc.2](https://github.com/qubic/static/compare/v1.5.0-rc.1...v1.5.0-rc.2) (2025-11-21)
+
+
+### Features
+
+* update wallet terms for Apple App Store compliance ([27c023d](https://github.com/qubic/static/commit/27c023dfc43e962c739c0890fea1cb6e1359d6b4))
+* update wallet terms for Apple compliance and improve dApp descriptions ([95d5dca](https://github.com/qubic/static/commit/95d5dca08507f57d1a1c8290d5f6fb1fba288fdc))
+* update wallet terms for Apple compliance and improve dApp descriptions ([6893ad5](https://github.com/qubic/static/commit/6893ad59b7de73bf0c36b53fad0da2bd6f9c08e6))
+
 # [1.5.0](https://github.com/qubic/static/compare/v1.4.0...v1.5.0) (2025-11-18)
 
 
