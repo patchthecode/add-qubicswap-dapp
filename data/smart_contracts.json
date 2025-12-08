@@ -587,7 +587,8 @@
         },
         {
           "id": 3,
-          "name": "Transfer Share Management Rights"
+          "name": "Transfer Share Management Rights",
+          "fee": 100
         }
       ]
     }
