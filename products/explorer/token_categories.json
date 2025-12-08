@@ -1,0 +1,16 @@
+{
+  "categories": [
+    {
+      "id": "liquid_staking",
+      "nameKey": "tokens.category.liquidStaking",
+      "rules": {
+        "matchAny": {
+          "prefixes": ["MBND"]
+        }
+      }
+    }
+  ],
+  "defaultCategoryId": "standard",
+  "defaultCategoryNameKey": "tokens.category.standard",
+  "allCategoryNameKey": "tokens.category.all"
+}
