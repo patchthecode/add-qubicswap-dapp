@@ -1,3 +1,16 @@
+# [1.9.0](https://github.com/qubic/static/compare/v1.8.0...v1.9.0) (2025-12-08)
+
+
+### Bug Fixes
+
+* update label to Qubic ICO Portal for QIP smart contract ([c091a09](https://github.com/qubic/static/commit/c091a091e93c4207d1f3108dc2cca2bd4a11d757))
+
+
+### Features
+
+* add token categories configuration for explorer app ([2dee065](https://github.com/qubic/static/commit/2dee065f357ac0240e666fd12680843cfbeb6b91))
+* simplify token categories to use regex patterns ([3605052](https://github.com/qubic/static/commit/3605052a7f97f097a5c2ee18f5ffd7342b14aeb1))
+
 # [1.9.0-rc.1](https://github.com/qubic/static/compare/v1.8.0...v1.9.0-rc.1) (2025-12-08)
 
 
