@@ -61,6 +61,13 @@
             "icon": "",
             "url": "https://www.qbond.org/",
             "descriptionId": "qbond_description"
+        },
+        {
+            "id": "qubicswap_app_id",
+            "nameId": "qubicswap_name",
+            "icon": "",
+            "url": "https://www.qubicswap.com/",
+            "descriptionId": "qubicswap_description"
         }
     ]
 }
