@@ -571,7 +571,7 @@
     {
       "filename": "QIP.h",
       "name": "QIP",
-      "label": "QIp",
+      "label": "Qubic ICO Portal",
       "githubUrl": "https://github.com/qubic/core/blob/main/src/contracts/QIP.h",
       "proposalUrl": "https://github.com/nineisten/qubicICOportal/blob/f6d09a05761f04af3556816c628fae66482889cb/README.md",
       "contractIndex": 18,
