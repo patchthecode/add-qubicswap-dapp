@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/qubic/static/compare/v1.7.0...v1.8.0) (2025-12-08)
+
+
+### Features
+
+* add fee for QIP Transfer Share Management Rights procedure ([89aa2fb](https://github.com/qubic/static/commit/89aa2fb7306ef8ee30afd07fa0ac5c0dc7866bf5))
+
 # [1.8.0-rc.1](https://github.com/qubic/static/compare/v1.7.0...v1.8.0-rc.1) (2025-12-02)
 
 
