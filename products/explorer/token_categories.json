@@ -4,9 +4,7 @@
       "id": "liquid_staking",
       "nameKey": "tokens.category.liquidStaking",
       "rules": {
-        "matchAny": {
-          "prefixes": ["MBND"]
-        }
+        "nameRegex": "^MBND"
       }
     }
   ],
