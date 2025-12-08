@@ -522,7 +522,10 @@
 
             <div class="endpoint-group" id="token-categories">
                 <h3>Token Categories</h3>
-                <p class="description">Configuration for categorizing tokens (e.g., Liquid Staking Tokens from QBond).</p>
+                <p class="description">Configuration for categorizing tokens using regex rules. Each category can define
+                    <code>nameRegex</code> and/or <code>issuerRegex</code> patterns. By default, if both are specified,
+                    both must match (AND logic). Add <code>matchAll: false</code> if either pattern matching is
+                    sufficient (OR logic).</p>
                 <ul class="endpoints">
                     <li><a href="v1/explorer/token_categories.json" target="_blank">token_categories.json</a></li>
                 </ul>
