@@ -591,6 +591,48 @@
           "fee": 100
         }
       ]
+    },
+    {
+      "filename": "QRaffle.h",
+      "name": "QRAFFLE",
+      "label": "QRaffle",
+      "githubUrl": "https://github.com/qubic/core/blob/main/src/contracts/QRaffle.h",
+      "contractIndex": 19,
+      "address": "TAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAXRFC",
+      "procedures": [
+        {
+          "id": 1,
+          "name": "Register in System"
+        },
+        {
+          "id": 2,
+          "name": "Logout in System"
+        },
+        {
+          "id": 3,
+          "name": "Submit Entry Amount"
+        },
+        {
+          "id": 4,
+          "name": "Submit Proposal"
+        },
+        {
+          "id": 5,
+          "name": "Vote in Proposal"
+        },
+        {
+          "id": 6,
+          "name": "Deposit in Qu Raffle"
+        },
+        {
+          "id": 7,
+          "name": "Deposit in Token Raffle"
+        },
+        {
+          "id": 8,
+          "name": "Transfer Share Management Rights"
+        }
+      ]
     }
   ]
 }
