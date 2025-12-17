@@ -474,9 +474,8 @@ def main():
     # Fetch current epoch to filter contracts
     current_epoch = fetch_current_epoch()
     if current_epoch is None:
-        print("Warning: Could not fetch current epoch, including all contracts")
-    else:
-        print(f"Current epoch: {current_epoch}")
+        raise SystemExit("Could not fetch current epoch from API")
+    print(f"Current epoch: {current_epoch}")
 
     stripped = strip_comments(contract_def_text)
 
