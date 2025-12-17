@@ -1,3 +1,10 @@
+# [1.10.0-rc.1](https://github.com/qubic/static/compare/v1.9.0...v1.10.0-rc.1) (2025-12-17)
+
+
+### Features
+
+* **smart_contracts:** add QRaffle and skip deprecated _old contracts ([cceb43c](https://github.com/qubic/static/commit/cceb43c4e5018019226e691f722c4ed2a3f1a2b8))
+
 # [1.9.0](https://github.com/qubic/static/compare/v1.8.0...v1.9.0) (2025-12-08)
 
 
