@@ -242,6 +242,8 @@ def should_skip_filename(fname: str) -> bool:
         return True
     if fname in {"math_lib.h", "qpi.h"}:
         return True
+    if fname.endswith("_old.h"):
+        return True
     return False
 
 def find_registers(text: str) -> List[Tuple[int, str]]:
