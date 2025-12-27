@@ -1,3 +1,16 @@
+# [1.11.0](https://github.com/qubic/static/compare/v1.10.0...v1.11.0) (2025-12-27)
+
+
+### Bug Fixes
+
+* **smart_contracts:** fail script if current epoch fetch fails ([eb361fc](https://github.com/qubic/static/commit/eb361fc92811d44302a38c593d73b54ab23091e6))
+
+
+### Features
+
+* **ci:** add weekly smart contracts refresh workflow ([7a301b2](https://github.com/qubic/static/commit/7a301b2c92e020608b9dc7d51a87c509c04e1711))
+* **smart_contracts:** ignore contracts with future constructionEpoch on refresh ([835eb31](https://github.com/qubic/static/commit/835eb31c0d298664d7e05c4d3efa9e4463f201ee))
+
 # [1.11.0-rc.1](https://github.com/qubic/static/compare/v1.10.0...v1.11.0-rc.1) (2025-12-27)
 
 
