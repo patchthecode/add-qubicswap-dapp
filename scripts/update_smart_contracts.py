@@ -37,6 +37,7 @@ import requests
 
 RAW_BASE_CONTRACTS = "https://raw.githubusercontent.com/qubic/core/main/src/contracts/"
 RAW_CONTRACT_DEF   = "https://raw.githubusercontent.com/qubic/core/main/src/contract_core/contract_def.h"
+QUBIC_STATS_API    = "https://rpc.qubic.org/v1/latest-stats"
 
 # ---------------------------- Regexes ---------------------------------------
 
@@ -148,6 +149,18 @@ def fetch_text(url: str) -> Optional[str]:
         print(f"Warning: GET {url} failed: {e}")
     return None
 
+def fetch_current_epoch() -> Optional[int]:
+    """Fetch the current epoch from the Qubic stats API."""
+    try:
+        resp = requests.get(QUBIC_STATS_API, timeout=30)
+        if resp.status_code == 200:
+            data = resp.json()
+            return data.get("data", {}).get("epoch")
+        print(f"Warning: GET {QUBIC_STATS_API} -> {resp.status_code}")
+    except Exception as e:
+        print(f"Warning: Failed to fetch current epoch: {e}")
+    return None
+
 # ---------------------------- Parse contract_def.h --------------------------
 
 def parse_contract_def_from_raw(raw_text: str, known_contract_basenames: Optional[set] = None) -> Dict[str, int]:
@@ -171,7 +184,12 @@ def parse_contract_def_from_raw(raw_text: str, known_contract_basenames: Optiona
             mapping[basename] = cidx
     return mapping
 
-def extract_contract_names_from_descriptions(raw_text: str) -> Dict[int, str]:
+def extract_contract_names_from_descriptions(raw_text: str) -> Dict[int, Dict[str, Any]]:
+    """
+    Extract contract info from contractDescriptions array.
+    Each entry is like: {"QX", 66, 10000, sizeof(QX)}
+    Returns: {contractIndex: {"name": str, "constructionEpoch": int}}
+    """
     text = strip_comments(raw_text)
     token = "contractDescriptions"
     pos = text.find(token)
@@ -222,16 +240,20 @@ def extract_contract_names_from_descriptions(raw_text: str) -> Dict[int, str]:
                     break
             i += 1
 
-    names: Dict[int, str] = {}
+    # Regex to parse: {"NAME", constructionEpoch, destructionEpoch, sizeof(...)}
+    item_re = re.compile(r'"([^"]+)"\s*,\s*(\d+)')
+
+    contracts: Dict[int, Dict[str, Any]] = {}
     for idx1, item in enumerate(items, start=0):
         if idx1 == 0:
             continue
-        m = FIRST_QUOTED_STRING_RE.search(item)
+        m = item_re.search(item)
         if not m:
             continue
         name = m.group(1)
-        names[idx1] = name
-    return names
+        construction_epoch = int(m.group(2))
+        contracts[idx1] = {"name": name, "constructionEpoch": construction_epoch}
+    return contracts
 
 # ---------------------------- Header scanning -------------------------------
 
@@ -449,19 +471,33 @@ def main():
     if not contract_def_text:
         raise SystemExit("Could not fetch contract_def.h")
 
+    # Fetch current epoch to filter contracts
+    current_epoch = fetch_current_epoch()
+    if current_epoch is None:
+        raise SystemExit("Could not fetch current epoch from API")
+    print(f"Current epoch: {current_epoch}")
+
     stripped = strip_comments(contract_def_text)
 
     all_basenames = set(Path(m.group("path")).name for m in INCLUDE_RE.finditer(stripped))
     basenames = {b for b in all_basenames if not should_skip_filename(b)}
     idx_map = parse_contract_def_from_raw(stripped, basenames)
 
-    idx_to_name = extract_contract_names_from_descriptions(stripped)
+    idx_to_info = extract_contract_names_from_descriptions(stripped)
 
     fresh_entries: List[Dict[str, Any]] = []
     for basename in sorted(basenames):
         cidx = idx_map.get(basename)
         if cidx is None:
             continue
+
+        # Skip contracts with constructionEpoch > currentEpoch
+        contract_info = idx_to_info.get(cidx, {})
+        construction_epoch = contract_info.get("constructionEpoch")
+        if current_epoch is not None and construction_epoch is not None:
+            if construction_epoch > current_epoch:
+                print(f"Skipping {basename}: constructionEpoch {construction_epoch} > current epoch {current_epoch}")
+                continue
 
         url = RAW_BASE_CONTRACTS + basename
         text = fetch_text(url)
@@ -482,7 +518,7 @@ def main():
         stem = Path(basename).stem
         label = label_from_filename_with_q_rule(stem)
 
-        name_value = idx_to_name.get(cidx, stem.upper())
+        name_value = contract_info.get("name", stem.upper())
 
         addr: Optional[str] = None
         identity = run_js_get_identity_from_index(cidx, js_lib_path)
