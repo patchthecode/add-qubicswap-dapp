@@ -32,14 +32,20 @@
             "nameId": "qearn_name",
             "icon": "https://framerusercontent.com/images/OlRHyS54DdB86UYF7BlAZbFQ.png",
             "url": "https://www.qearn.org/",
-            "descriptionId": "qearn_description"
+            "descriptionId": "qearn_description",
+            "platformVersions": {
+                "ios": "none"
+            }
         },
         {
             "id": "qxboard_app_id",
             "nameId": "qxboard_name",
             "icon": "",
             "url": "https://www.qxboard.com/",
-            "descriptionId": "qxboard_description"
+            "descriptionId": "qxboard_description",
+            "platformVersions": {
+                "ios": "none"
+            }
         },
         {
             "id": "qxtrade_app_id",
@@ -49,21 +55,30 @@
             "descriptionId": "qxtrade_description",
             "excludedPlatforms": [
                 "ios"
-            ]
+            ],
+            "platformVersions": {
+                "ios": "none"
+            }
         },
         {
             "id": "qbay_app_id",
             "nameId": "qbay_name",
             "icon": "",
             "url": "https://qubicbay.io/",
-            "descriptionId": "qbay_description"
+            "descriptionId": "qbay_description",
+            "platformVersions": {
+                "ios": "none"
+            }
         },
         {
             "id": "qbond_app_id",
             "nameId": "qbond_name",
             "icon": "",
             "url": "https://www.qbond.org/",
-            "descriptionId": "qbond_description"
+            "descriptionId": "qbond_description",
+            "platformVersions": {
+                "ios": "none"
+            }
         }
     ]
 }
