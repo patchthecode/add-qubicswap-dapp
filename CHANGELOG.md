@@ -1,3 +1,17 @@
+# [1.12.0](https://github.com/qubic/static/compare/v1.11.1...v1.12.0) (2025-12-30)
+
+
+### Features
+
+* add platformVersions to exclude dApps on iOS ([e4114ad](https://github.com/qubic/static/commit/e4114ade460c2bebbf93972b95a548b691300e51))
+
+# [1.12.0-rc.1](https://github.com/qubic/static/compare/v1.11.1...v1.12.0-rc.1) (2025-12-30)
+
+
+### Features
+
+* add platformVersions to exclude dApps on iOS ([e4114ad](https://github.com/qubic/static/commit/e4114ade460c2bebbf93972b95a548b691300e51))
+
 ## [1.11.1](https://github.com/qubic/static/compare/v1.11.0...v1.11.1) (2025-12-29)
 
 
