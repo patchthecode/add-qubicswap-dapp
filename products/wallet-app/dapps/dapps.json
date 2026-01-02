@@ -53,9 +53,6 @@
             "icon": "",
             "url": "https://qubictrade.com/",
             "descriptionId": "qxtrade_description",
-            "excludedPlatforms": [
-                "ios"
-            ],
             "platformVersions": {
                 "ios": "none"
             }
