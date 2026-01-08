@@ -1,3 +1,17 @@
+## [1.12.1](https://github.com/qubic/static/compare/v1.12.0...v1.12.1) (2026-01-02)
+
+
+### Bug Fixes
+
+* **dapps:** trigger release for excludedPlatforms removal ([ab09106](https://github.com/qubic/static/commit/ab0910655d2d33aec6319094d84f9deb9f9673e0))
+
+## [1.12.1-rc.1](https://github.com/qubic/static/compare/v1.12.0...v1.12.1-rc.1) (2026-01-02)
+
+
+### Bug Fixes
+
+* **dapps:** trigger release for excludedPlatforms removal ([ab09106](https://github.com/qubic/static/commit/ab0910655d2d33aec6319094d84f9deb9f9673e0))
+
 # [1.12.0](https://github.com/qubic/static/compare/v1.11.1...v1.12.0) (2025-12-30)
 
 
