@@ -1,3 +1,10 @@
+## [1.12.4](https://github.com/qubic/static/compare/v1.12.3...v1.12.4) (2026-01-21)
+
+
+### Bug Fixes
+
+* **ci:** improve workflow triggers and branch naming ([5d5b31e](https://github.com/qubic/static/commit/5d5b31ebcee9b94d0a1df93ba7dbe27a3bdc4072))
+
 ## [1.12.3](https://github.com/qubic/static/compare/v1.12.2...v1.12.3) (2026-01-21)
 
 
