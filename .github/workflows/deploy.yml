@@ -6,9 +6,6 @@ on:
       - dev
       - staging
       - main
-  pull_request:
-    types:
-      - closed
 
 jobs:
   release-and-deploy:
