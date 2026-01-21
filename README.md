@@ -60,6 +60,15 @@ Base URL: `https://static.qubic.org/v1/general/data/`
   - [bundle.json](https://static.qubic.org/v1/general/data/bundle.json)
   - [bundle.min.json](https://static.qubic.org/v1/general/data/bundle.min.json)
 
+### File Formats
+
+Each JSON file is available in two formats:
+
+- **`.json`** — Pretty-printed with indentation, human-readable
+- **`.min.json`** — Minified (no whitespace), optimized for bandwidth
+
+The **bundle** files combine all data files into a single file for convenience, useful when you need all data in one request.
+
 - **Version Tracking**
   - [version.json](https://static.qubic.org/v1/general/data/version.json) - Contains file hashes and sizes for cache invalidation
 
@@ -189,6 +198,18 @@ Semantic-release automatically:
 - Creates GitHub releases
 - Generates changelogs
 - Triggers deployments
+
+### Automated Smart Contracts Updates
+
+Smart contract data is automatically refreshed every **Wednesday at 14:00 UTC** via a scheduled GitHub Action workflow.
+
+**How it works:**
+1. The workflow runs `scripts/update_smart_contracts.py` which fetches the latest contract data from the [qubic-core](https://github.com/qubic/core) repository
+2. If changes are detected (new contracts, updated procedures, etc.), a PR is automatically created to the `main` branch
+3. Once merged, a new release is created and deployed to production
+4. After the release, merge `main` back to `dev` and `staging` to keep branches in sync
+
+**Manual trigger:** The workflow can also be triggered manually from the [Actions tab](../../actions/workflows/refresh-smart-contracts.yml) if an immediate update is needed.
 
 ## How to Contribute
 
