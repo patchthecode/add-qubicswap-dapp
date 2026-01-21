@@ -1,3 +1,17 @@
+## [1.12.2](https://github.com/qubic/static/compare/v1.12.1...v1.12.2) (2026-01-08)
+
+
+### Bug Fixes
+
+* add fee to Transfer Share Management Rights for QRaffle ([47fc1be](https://github.com/qubic/static/commit/47fc1be131d5e81dc5375595bef79c08a93ebdda))
+
+## [1.12.2-rc.1](https://github.com/qubic/static/compare/v1.12.1...v1.12.2-rc.1) (2026-01-08)
+
+
+### Bug Fixes
+
+* add fee to Transfer Share Management Rights for QRaffle ([47fc1be](https://github.com/qubic/static/commit/47fc1be131d5e81dc5375595bef79c08a93ebdda))
+
 ## [1.12.1](https://github.com/qubic/static/compare/v1.12.0...v1.12.1) (2026-01-02)
 
 
