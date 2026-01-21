@@ -16,7 +16,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: dev
+          ref: main
           fetch-depth: 0
 
       - name: Setup Python
@@ -67,13 +67,13 @@ jobs:
 
           git checkout -b "$BRANCH_NAME"
           git add data/smart_contracts.json
-          git commit -m "chore(smart_contracts): refresh smart contracts data"
+          git commit -m "feat(smart_contracts): refresh smart contracts data"
           git push origin "$BRANCH_NAME"
 
           gh pr create \
-            --base dev \
+            --base main \
             --head "$BRANCH_NAME" \
-            --title "chore(smart_contracts): refresh smart contracts data" \
+            --title "feat(smart_contracts): refresh smart contracts data" \
             --body "$(cat <<'EOF'
           ## Summary
           - Automated weekly refresh of smart contracts data
