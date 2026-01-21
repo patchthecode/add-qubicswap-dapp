@@ -386,13 +386,16 @@
             <h2>General Data (Shared)</h2>
 
             <p class="description">Shared data resources available for all applications including smart contracts,
-                exchanges, tokens, and address labels.</p>
+                exchanges, tokens, and address labels. Each file is available in two formats:
+                <strong>.json</strong> (pretty-printed, human-readable) and
+                <strong>.min.json</strong> (minified, optimized for bandwidth).</p>
             <div class="base-url">https://static.qubic.org/v1/general/data/</div>
 
             <div class="endpoint-group" id="smart-contracts">
                 <h3>Smart Contracts</h3>
                 <p class="description">Comprehensive list of Qubic smart contracts including names, indexes, procedures,
-                    GitHub source links, and addresses.</p>
+                    GitHub source links, and addresses. This data is automatically updated weekly from the
+                    <a href="https://github.com/qubic/core" target="_blank" style="color: #CCFCFF; text-decoration: underline;">qubic-core</a> repository.</p>
                 <ul class="endpoints">
                     <li><a href="v1/general/data/smart_contracts.json" target="_blank">smart_contracts.json</a></li>
                     <li><a href="v1/general/data/smart_contracts.min.json" target="_blank">smart_contracts.min.json</a>
@@ -435,7 +438,7 @@
 
             <div class="endpoint-group" id="bundle">
                 <h3>Bundle</h3>
-                <p class="description">All general data files combined into a single file for convenience.</p>
+                <p class="description">All general data files merged into a single file. Use this when you need all data in one request instead of fetching each file individually.</p>
                 <ul class="endpoints">
                     <li><a href="v1/general/data/bundle.json" target="_blank">bundle.json</a></li>
                     <li><a href="v1/general/data/bundle.min.json" target="_blank">bundle.min.json</a></li>
