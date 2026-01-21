@@ -1,3 +1,11 @@
+## [1.12.3](https://github.com/qubic/static/compare/v1.12.2...v1.12.3) (2026-01-21)
+
+
+### Bug Fixes
+
+* **ci:** prevent deploy workflow from running on PR close events ([6d46e05](https://github.com/qubic/static/commit/6d46e05bc29f321273997052966eb5a2e34f3e8b))
+* **ci:** update smart contracts refresh workflow to target main branch ([ef175a9](https://github.com/qubic/static/commit/ef175a9c40c5826ec58451a11383b0d81b3bd7de))
+
 ## [1.12.3-rc.1](https://github.com/qubic/static/compare/v1.12.2...v1.12.3-rc.1) (2026-01-21)
 
 
