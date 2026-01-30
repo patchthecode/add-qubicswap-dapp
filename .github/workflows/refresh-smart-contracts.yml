@@ -60,7 +60,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          BRANCH_NAME="chore/refresh-smart-contracts-$(date +%Y%m%d)"
+          BRANCH_NAME="feat/refresh-smart-contracts-$(date +%Y%m%d-%H%M%S)"
 
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
