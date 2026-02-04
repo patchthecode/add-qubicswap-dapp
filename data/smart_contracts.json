@@ -634,6 +634,126 @@
           "fee": 100
         }
       ]
+    },
+    {
+      "filename": "qRWA.h",
+      "name": "QRWA",
+      "label": "QRWA",
+      "githubUrl": "https://github.com/qubic/core/blob/main/src/contracts/qRWA.h",
+      "contractIndex": 20,
+      "address": "UAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHQEE",
+      "procedures": [
+        {
+          "id": 3,
+          "name": "Donate to Treasury"
+        },
+        {
+          "id": 4,
+          "name": "Vote Gov Params"
+        },
+        {
+          "id": 5,
+          "name": "Create Asset Release Poll"
+        },
+        {
+          "id": 6,
+          "name": "Vote Asset Release"
+        },
+        {
+          "id": 7,
+          "name": "Deposit General Asset"
+        },
+        {
+          "id": 8,
+          "name": "Revoke Asset Management Rights"
+        }
+      ]
+    },
+    {
+      "filename": "QReservePool.h",
+      "name": "QRP",
+      "label": "QReservePool",
+      "githubUrl": "https://github.com/qubic/core/blob/main/src/contracts/QReservePool.h",
+      "contractIndex": 21,
+      "address": "VAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAILLJ",
+      "procedures": [
+        {
+          "id": 1,
+          "name": "Withdraw Reserve"
+        },
+        {
+          "id": 2,
+          "name": "Add Allowed SC"
+        },
+        {
+          "id": 3,
+          "name": "Remove Allowed SC"
+        }
+      ]
+    },
+    {
+      "filename": "QThirtyFour.h",
+      "name": "QTF",
+      "label": "QThirtyFour",
+      "githubUrl": "https://github.com/qubic/core/blob/main/src/contracts/QThirtyFour.h",
+      "contractIndex": 22,
+      "address": "WAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAVDQA",
+      "procedures": [
+        {
+          "id": 1,
+          "name": "Buy Ticket"
+        },
+        {
+          "id": 2,
+          "name": "Set Price"
+        },
+        {
+          "id": 3,
+          "name": "Set Schedule"
+        },
+        {
+          "id": 4,
+          "name": "Set Target Jackpot"
+        },
+        {
+          "id": 5,
+          "name": "Set Draw Hour"
+        }
+      ]
+    },
+    {
+      "filename": "QDuel.h",
+      "name": "QDUEL",
+      "label": "QDuel",
+      "githubUrl": "https://github.com/qubic/core/blob/main/src/contracts/QDuel.h",
+      "contractIndex": 23,
+      "address": "XAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAXNMD",
+      "procedures": [
+        {
+          "id": 1,
+          "name": "Create Room"
+        },
+        {
+          "id": 2,
+          "name": "Connect to Room"
+        },
+        {
+          "id": 3,
+          "name": "Set Percent Fees"
+        },
+        {
+          "id": 4,
+          "name": "Set TTL Hours"
+        },
+        {
+          "id": 5,
+          "name": "Deposit"
+        },
+        {
+          "id": 6,
+          "name": "Withdraw"
+        }
+      ]
     }
   ]
 }
