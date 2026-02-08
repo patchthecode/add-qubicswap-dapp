@@ -1,3 +1,10 @@
+## [1.14.1](https://github.com/qubic/static/compare/v1.14.0...v1.14.1) (2026-02-08)
+
+
+### Bug Fixes
+
+* **ci:** use PAT for PR creation in smart contracts workflow ([2c12c69](https://github.com/qubic/static/commit/2c12c69a85616f60df100794d27defdc4909fb1e))
+
 # [1.14.0](https://github.com/qubic/static/compare/v1.13.0...v1.14.0) (2026-02-04)
 
 
