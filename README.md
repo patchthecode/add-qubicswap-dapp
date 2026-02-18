@@ -7,7 +7,7 @@ This repository provides static data and assets related to Qubic blockchain. It 
 ### General Data (Shared)
 Available at: **https://static.qubic.org/v1/general/data/**
 
-- **Smart contracts** — names, indexes, procedures, GitHub source links, and addresses
+- **Smart contracts** — names, indexes, procedures (with fees), epoch info, GitHub source links, and addresses
 - **Exchanges** — known trading platforms and their Qubic addresses
 - **Tokens** — additional token information
 - **Address labels** — relevant Qubic addresses
@@ -43,6 +43,29 @@ Base URL: `https://static.qubic.org/v1/general/data/`
 - **Smart Contracts**
   - [smart_contracts.json](https://static.qubic.org/v1/general/data/smart_contracts.json)
   - [smart_contracts.min.json](https://static.qubic.org/v1/general/data/smart_contracts.min.json)
+
+  **Fields per contract:**
+  | Field | Type | Description |
+  |---|---|---|
+  | `filename` | string | Source file name (e.g., `Qx.h`) |
+  | `name` | string | Contract name as defined in qubic-core (e.g., `QX`) |
+  | `label` | string | Human-readable label (e.g., `QVault`, `General Quorum Proposal`) |
+  | `githubUrl` | string | Link to the contract source file on GitHub |
+  | `contractIndex` | number | Unique contract index |
+  | `address` | string | 60-character Qubic identity address |
+  | `firstUseEpoch` | number | Epoch when the contract becomes active |
+  | `sharesAuctionEpoch` | number | Epoch when IPO shares auction starts (`firstUseEpoch - 1`) |
+  | `allowTransferShares` | boolean | Whether the contract allows share transfers via `PRE_ACQUIRE_SHARES` |
+  | `procedures` | array | List of public procedures (see below) |
+
+  **Fields per procedure:**
+  | Field | Type | Description |
+  |---|---|---|
+  | `id` | number | Procedure ID |
+  | `name` | string | Human-readable procedure name |
+  | `fee` | number (optional) | Fee in qus. See note below. |
+
+  > **About the `fee` field:** Fees are currently extracted for the following procedures: `Transfer Share Management Rights`, `Revoke Asset Management Rights`, and `Transfer Share Ownership and Possession`. The fee is included only when it can be resolved to a fixed value from the source code. If a procedure does not have a `fee` field, it does not necessarily mean it is free — the fee may be determined dynamically at execution time (e.g., fetched from another contract or calculated based on state).
 
 - **Exchanges**
   - [exchanges.json](https://static.qubic.org/v1/general/data/exchanges.json)
@@ -237,7 +260,7 @@ Contributions are welcome! Here's how you can help:
 
 **Smart Contract Custom Data**
 - Add custom fields or metadata to existing smart contracts in `data/smart_contracts.json`
-- Note: Core fields (name, contractIndex, address, procedures) are auto-generated. Open an Issue for corrections to these fields rather than submitting PRs
+- Note: Auto-generated fields (`name`, `contractIndex`, `address`, `githubUrl`, `firstUseEpoch`, `sharesAuctionEpoch`, `allowTransferShares`, `procedures` including `fee`) are refreshed few hours after the beginning of each epoch. Open an Issue for corrections to these fields rather than submitting PRs
 
 ### Submitting Changes
 
