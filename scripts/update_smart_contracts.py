@@ -14,12 +14,14 @@ Rules:
           - If whole name is uppercase, keep "Q" + next uppercase + rest lowercase (QVAULT -> QVault).
           - Examples: Qx -> Qx, QUTIL -> QUtil, Qswap -> QSwap, Qbay -> QBay.
       * Otherwise: prettified phrase (GeneralQuorumProposal -> General Quorum Proposal).
-- Fields: filename, name, label, githubUrl, contractIndex, address, procedures(list of {id,name}).
+- Fields: filename, name, label, githubUrl, contractIndex, address, firstUseEpoch, sharesAuctionEpoch,
+          allowTransferShares, procedures(list of {id, name, fee?}).
 - address: computed via Node using your JS helper:
       const publicKey = helper.getIdentityBytes(addr56);  // addr56 built from contractIndex (A..P, LE, len=56)
       const identity  = await helper.getIdentity(publicKey)  // 60-char with checksum
 - Non-destructive merge: adds new contracts and new procedure IDs; preserves manual edits and custom fields.
-  Authoritative fields (auto-updated from GitHub): filename, name, contractIndex, address, githubUrl, procedures.
+  Authoritative fields (auto-updated from GitHub): filename, name, contractIndex, address, githubUrl,
+  firstUseEpoch, sharesAuctionEpoch, allowTransferShares, procedures.
   Preserved fields: label (if already set), and any custom fields (e.g., proposalUrl, etc.).
 - Sort: contracts by contractIndex; procedures by id.
 """
@@ -57,6 +59,29 @@ INCLUDE_RE = re.compile(r'#\s*include\s*["<](?P<path>[^">]+)[">]')
 CONTRACT_INDEX_RE = re.compile(r'#\s*define\s+[A-Za-z0-9_]+_CONTRACT_INDEX\s+(?P<num>\d+)\b')
 
 FIRST_QUOTED_STRING_RE = re.compile(r'"([^"]+)"')
+
+ALLOW_TRANSFER_RE = re.compile(
+    r"""
+    output\s*\.\s*allowTransfer\s*=\s*(?P<value>true|false)
+    """,
+    re.VERBOSE,
+)
+
+PROCEDURE_DEF_RE = re.compile(
+    r"PUBLIC_PROCEDURE(?:_WITH_LOCALS)?\s*\(\s*(?P<name>\w+)\s*\)",
+)
+
+CONSTEXPR_RE = re.compile(
+    r"constexpr\s+\w+\s+(?P<name>\w+)\s*=\s*(?P<value>\d+)",
+)
+
+STATE_FEE_RE = re.compile(
+    r"state\s*\.\s*transferRightsFee\s*=\s*(?P<value>\d+)",
+)
+
+INVOCATION_REWARD_CMP_RE = re.compile(
+    r"qpi\s*\.\s*invocationReward\s*\(\s*\)\s*<\s*(?P<value>[\w.]+)",
+)
 
 BLOCK_COMMENT_RE = re.compile(r"/\*.*?\*/", re.DOTALL)
 LINE_COMMENT_RE  = re.compile(r"//[^\n]*")
@@ -268,6 +293,201 @@ def should_skip_filename(fname: str) -> bool:
         return True
     return False
 
+def _find_brace_block(text: str, start: int) -> Optional[str]:
+    """Find the brace-delimited block starting at or after 'start'. Returns body including braces."""
+    brace_start = text.find("{", start)
+    if brace_start == -1:
+        return None
+    depth = 0
+    end = brace_start
+    while end < len(text):
+        if text[end] == "{":
+            depth += 1
+        elif text[end] == "}":
+            depth -= 1
+            if depth == 0:
+                return text[brace_start:end + 1]
+        end += 1
+    return None
+
+def _extract_last_arg(text: str, call_pos: int) -> Optional[str]:
+    """Extract the last argument from a function call starting at call_pos (position of the '(' char)."""
+    paren_start = text.find("(", call_pos)
+    if paren_start == -1:
+        return None
+    depth = 0
+    end = paren_start
+    while end < len(text):
+        if text[end] == "(":
+            depth += 1
+        elif text[end] == ")":
+            depth -= 1
+            if depth == 0:
+                break
+        end += 1
+    args_str = text[paren_start + 1:end]
+    # Split by commas at top-level (depth 0)
+    args: List[str] = []
+    current: List[str] = []
+    d = 0
+    for ch in args_str:
+        if ch in "({":
+            d += 1
+        elif ch in ")}":
+            d -= 1
+        if ch == "," and d == 0:
+            args.append("".join(current).strip())
+            current = []
+        else:
+            current.append(ch)
+    if current:
+        args.append("".join(current).strip())
+    return args[-1] if args else None
+
+def _resolve_state_transfer_fee(text_nc: str) -> Optional[int]:
+    """Find state.transferRightsFee assignment, preferring BEGIN_EPOCH over INITIALIZE."""
+    for method in ["BEGIN_EPOCH", "INITIALIZE"]:
+        pos = text_nc.find(method)
+        if pos == -1:
+            continue
+        body = _find_brace_block(text_nc, pos)
+        if not body:
+            continue
+        m = STATE_FEE_RE.search(body)
+        if m:
+            return int(m.group("value"))
+    return None
+
+def _resolve_state_var_fee(text_nc: str, var_name: str) -> Optional[int]:
+    """
+    Resolve a state variable fee by finding its literal assignment in INITIALIZE() or BEGIN_EPOCH().
+    Prefers BEGIN_EPOCH over INITIALIZE. Returns None if the assignment comes from an
+    inter-contract call (CALL_OTHER_CONTRACT_FUNCTION) or is otherwise not a literal.
+    """
+    # Build regex for: state.varName = <literal>
+    # e.g. state._transferFee = 100
+    assign_re = re.compile(
+        r"state\s*\.\s*" + re.escape(var_name) + r"\s*=\s*(?P<value>\d+)"
+    )
+
+    for method in ["BEGIN_EPOCH", "INITIALIZE"]:
+        pos = text_nc.find(method)
+        if pos == -1:
+            continue
+        body = _find_brace_block(text_nc, pos)
+        if not body:
+            continue
+
+        # If there's an inter-contract call in this method that could set the variable, skip
+        if "CALL_OTHER_CONTRACT_FUNCTION" in body and var_name in body:
+            continue
+
+        # Find all assignments — use the last one (in case of overrides like "old value / new value")
+        matches = list(assign_re.finditer(body))
+        if matches:
+            return int(matches[-1].group("value"))
+
+    return None
+
+FEE_PROCEDURES = {
+    "transfersharemanagementrights",
+    "revokeassetmanagementrights",
+    "transfershareownershipandpossession",
+}
+
+def extract_procedure_fees(text: str) -> Dict[str, int]:
+    """
+    Extract fees from specific procedures (FEE_PROCEDURES).
+    Two strategies:
+    1. qpi.releaseShares() last arg — for TransferShareManagementRights, RevokeAssetManagementRights
+    2. qpi.invocationReward() < X comparison — for TransferShareOwnershipAndPossession
+    Returns: {procedure_name: fee_value} for procedures with resolvable fees.
+    Skips procedures where the fee is dynamic or from inter-contract calls.
+    """
+    text_nc = strip_comments(text)
+
+    # Collect constexpr constants
+    constants: Dict[str, int] = {}
+    for m in CONSTEXPR_RE.finditer(text_nc):
+        constants[m.group("name")] = int(m.group("value"))
+
+    # Resolve state.transferRightsFee if used (for releaseShares pattern)
+    state_fee = _resolve_state_transfer_fee(text_nc)
+
+    fees: Dict[str, int] = {}
+    for m in PROCEDURE_DEF_RE.finditer(text_nc):
+        proc_name = m.group("name")
+
+        # Only extract fees for the specific procedures we care about (case-insensitive)
+        if proc_name.lower() not in FEE_PROCEDURES:
+            continue
+
+        body = _find_brace_block(text_nc, m.end())
+        if not body:
+            continue
+
+        # Strategy 1: qpi.releaseShares() — last arg is the fee
+        release_pos = body.find("qpi.releaseShares(")
+        if release_pos != -1:
+            last_arg = _extract_last_arg(body, release_pos)
+            if last_arg is not None:
+                cleaned = re.sub(r'[UuLl]+$', '', last_arg)
+                if cleaned.isdigit():
+                    fees[proc_name] = int(cleaned)
+                elif cleaned in constants:
+                    fees[proc_name] = constants[cleaned]
+                elif cleaned.startswith("state.") and "transferRightsFee" in cleaned and state_fee is not None:
+                    fees[proc_name] = state_fee
+            continue
+
+        # Strategy 2: qpi.invocationReward() < X — X is the fee
+        cmp_m = INVOCATION_REWARD_CMP_RE.search(body)
+        if cmp_m:
+            value_str = cmp_m.group("value")
+            if value_str.isdigit():
+                fees[proc_name] = int(value_str)
+            elif value_str in constants:
+                fees[proc_name] = constants[value_str]
+            elif value_str.startswith("state."):
+                # Resolve the state variable from INITIALIZE/BEGIN_EPOCH
+                var_name = value_str.split(".", 1)[1]
+                resolved = _resolve_state_var_fee(text_nc, var_name)
+                if resolved is not None:
+                    fees[proc_name] = resolved
+
+    return fees
+
+def extract_allow_transfer_shares(text: str) -> bool:
+    """
+    Extract allowTransferShares from PRE_ACQUIRE_SHARES method.
+    Returns True if output.allowTransfer = true, False otherwise (including if method doesn't exist).
+    """
+    text_nc = strip_comments(text)
+    # Find the PRE_ACQUIRE_SHARES method
+    marker = "PRE_ACQUIRE_SHARES"
+    pos = text_nc.find(marker)
+    if pos == -1:
+        return False
+    # Find the method body
+    brace_start = text_nc.find("{", pos)
+    if brace_start == -1:
+        return False
+    depth = 0
+    end = brace_start
+    while end < len(text_nc):
+        if text_nc[end] == "{":
+            depth += 1
+        elif text_nc[end] == "}":
+            depth -= 1
+            if depth == 0:
+                break
+        end += 1
+    body = text_nc[brace_start:end + 1]
+    m = ALLOW_TRANSFER_RE.search(body)
+    if m:
+        return m.group("value") == "true"
+    return False
+
 def find_registers(text: str) -> List[Tuple[int, str]]:
     text_nc = strip_comments(text)
     out: List[Tuple[int, str]] = []
@@ -352,21 +572,24 @@ def run_js_get_identity_from_index(cidx: int, js_lib_path: Path) -> Optional[str
 # ---------------------------- JSON merge/sort -------------------------------
 
 def normalize_procs_to_list(procs: Any) -> List[Dict[str, Any]]:
-    items: Dict[int, str] = {}
+    items: Dict[int, Dict[str, Any]] = {}
     if isinstance(procs, dict):
         for k, v in procs.items():
             try:
-                items[int(k)] = v
+                items[int(k)] = {"id": int(k), "name": v}
             except (TypeError, ValueError):
                 continue
     elif isinstance(procs, list):
         for obj in procs:
             if isinstance(obj, dict) and "id" in obj and "name" in obj:
                 try:
-                    items[int(obj["id"])] = obj["name"]
+                    entry: Dict[str, Any] = {"id": int(obj["id"]), "name": obj["name"]}
+                    if "fee" in obj:
+                        entry["fee"] = obj["fee"]
+                    items[int(obj["id"])] = entry
                 except (TypeError, ValueError):
                     continue
-    return [{"id": pid, "name": items[pid]} for pid in sorted(items.keys())]
+    return [items[pid] for pid in sorted(items.keys())]
 
 def index_by_filename(contracts: List[Dict[str, Any]]) -> Dict[str, Dict[str, Any]]:
     out: Dict[str, Dict[str, Any]] = {}
@@ -401,6 +624,12 @@ def merge_contracts(existing: List[Dict[str, Any]], fresh: List[Dict[str, Any]])
             ex["address"] = new["address"]
         if new.get("githubUrl"):
             ex["githubUrl"] = new["githubUrl"]
+        if "allowTransferShares" in new:
+            ex["allowTransferShares"] = new["allowTransferShares"]
+        if "firstUseEpoch" in new:
+            ex["firstUseEpoch"] = new["firstUseEpoch"]
+        if "sharesAuctionEpoch" in new:
+            ex["sharesAuctionEpoch"] = new["sharesAuctionEpoch"]
 
         # keep existing label if present
         if not ex.get("label") and isinstance(new.get("label"), str):
@@ -409,7 +638,8 @@ def merge_contracts(existing: List[Dict[str, Any]], fresh: List[Dict[str, Any]])
         # Note: All other fields in 'ex' (like proposalUrl, etc.) are preserved automatically
         # since we're updating the existing dict in-place rather than replacing it
 
-        # Merge procedures while preserving custom fields (like 'fee')
+        # Merge procedures: update authoritative fields (name, fee) from fresh data,
+        # preserve other custom fields from existing data
         ex_procs = ex.get("procedures", [])
         new_list = normalize_procs_to_list(new.get("procedures", []))
 
@@ -422,17 +652,27 @@ def merge_contracts(existing: List[Dict[str, Any]], fresh: List[Dict[str, Any]])
                 except (TypeError, ValueError):
                     continue
 
-        # Merge: update name from new, preserve custom fields from existing
+        # Build a map of fresh procedures for fee lookup
+        new_by_id: Dict[int, Dict[str, Any]] = {}
+        for p in new_list:
+            new_by_id[p["id"]] = p
+
         merged_procs: List[Dict[str, Any]] = []
         seen_ids: set[int] = set()
 
         for new_p in new_list:
             pid = new_p["id"]
             if pid in ex_by_id:
-                # Preserve existing procedure entirely (name + custom fields)
-                merged_procs.append(ex_by_id[pid])
+                ex_p = ex_by_id[pid]
+                # Update fee from fresh data (authoritative)
+                if "fee" in new_p:
+                    ex_p["fee"] = new_p["fee"]
+                elif "fee" in ex_p:
+                    # Fresh data has no fee for this procedure; remove stale fee
+                    del ex_p["fee"]
+                merged_procs.append(ex_p)
             else:
-                # New procedure, add with auto-generated name
+                # New procedure
                 merged_procs.append(new_p)
             seen_ids.add(pid)
 
@@ -491,20 +731,25 @@ def main():
         if cidx is None:
             continue
 
-        # Skip contracts with constructionEpoch > currentEpoch
+        # Skip contracts whose shares auction hasn't started yet
         contract_info = idx_to_info.get(cidx, {})
         construction_epoch = contract_info.get("constructionEpoch")
         if current_epoch is not None and construction_epoch is not None:
-            if construction_epoch > current_epoch:
-                print(f"Skipping {basename}: constructionEpoch {construction_epoch} > current epoch {current_epoch}")
+            shares_auction_epoch = construction_epoch - 1
+            if shares_auction_epoch > current_epoch:
+                print(f"Skipping {basename}: sharesAuctionEpoch {shares_auction_epoch} > current epoch {current_epoch}")
                 continue
 
         url = RAW_BASE_CONTRACTS + basename
         text = fetch_text(url)
 
         regs: List[Tuple[int, str]] = []
+        allow_transfer_shares = False
+        proc_fees: Dict[str, int] = {}
         if text:
             regs = find_registers(text)
+            allow_transfer_shares = extract_allow_transfer_shares(text)
+            proc_fees = extract_procedure_fees(text)
 
         procs: List[Dict[str, Any]] = []
         seen: set[int] = set()
@@ -512,7 +757,10 @@ def main():
             if num in seen:
                 continue
             seen.add(num)
-            procs.append({"id": num, "name": pretty_procedure_name(ident)})
+            proc_entry: Dict[str, Any] = {"id": num, "name": pretty_procedure_name(ident)}
+            if ident in proc_fees:
+                proc_entry["fee"] = proc_fees[ident]
+            procs.append(proc_entry)
         procs.sort(key=lambda x: x["id"])
 
         stem = Path(basename).stem
@@ -529,15 +777,22 @@ def main():
 
         githubUrl = f"https://github.com/qubic/core/blob/main/src/contracts/{basename}"
 
-        fresh_entries.append({
+        entry: Dict[str, Any] = {
             "filename": basename,
             "name": name_value,
             "label": label,
             "githubUrl": githubUrl,
             "contractIndex": cidx,
             "address": addr,
+            "allowTransferShares": allow_transfer_shares,
             "procedures": procs,
-        })
+        }
+
+        if construction_epoch is not None:
+            entry["firstUseEpoch"] = construction_epoch
+            entry["sharesAuctionEpoch"] = construction_epoch - 1
+
+        fresh_entries.append(entry)
 
     try:
         existing_top = json.loads(data_path.read_text(encoding="utf-8"))
