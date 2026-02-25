@@ -1,3 +1,17 @@
+# [1.17.0](https://github.com/qubic/static/compare/v1.16.0...v1.17.0) (2026-02-25)
+
+
+### Features
+
+* **smart_contracts:** add epoch fields, share transfer flag, and procedure fees ([09a259e](https://github.com/qubic/static/commit/09a259e0dc3f13507027aaac03fb82c40976b22d))
+
+# [1.17.0-rc.1](https://github.com/qubic/static/compare/v1.16.0...v1.17.0-rc.1) (2026-02-25)
+
+
+### Features
+
+* **smart_contracts:** add epoch fields, share transfer flag, and procedure fees ([09a259e](https://github.com/qubic/static/commit/09a259e0dc3f13507027aaac03fb82c40976b22d))
+
 # [1.16.0](https://github.com/qubic/static/compare/v1.15.0...v1.16.0) (2026-02-25)
 
 
