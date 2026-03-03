@@ -1,0 +1,15 @@
+{
+  "transaction_input_types": [
+    { "id": 0, "label": "Transfer" },
+    { "id": 1, "label": "Vote Counter" },
+    { "id": 2, "label": "Mining Solution" },
+    { "id": 3, "label": "File Header" },
+    { "id": 4, "label": "File Fragment" },
+    { "id": 5, "label": "File Trailer" },
+    { "id": 6, "label": "Oracle Reply Commit" },
+    { "id": 7, "label": "Oracle Reply Reveal" },
+    { "id": 8, "label": "Mining Share Counter" },
+    { "id": 9, "label": "Execution Fee Report" },
+    { "id": 10, "label": "Oracle User Query" }
+  ]
+}
