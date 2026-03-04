@@ -11,6 +11,7 @@ Available at: **https://static.qubic.org/v1/general/data/**
 - **Exchanges** — known trading platforms and their Qubic addresses
 - **Tokens** — additional token information
 - **Address labels** — relevant Qubic addresses
+- **Protocol** — core protocol definitions (transaction input types, etc.)
 
 ### Product-Specific Data
 
@@ -78,6 +79,18 @@ Base URL: `https://static.qubic.org/v1/general/data/`
 - **Address Labels**
   - [address_labels.json](https://static.qubic.org/v1/general/data/address_labels.json)
   - [address_labels.min.json](https://static.qubic.org/v1/general/data/address_labels.min.json)
+
+- **Protocol**
+  - [protocol.json](https://static.qubic.org/v1/general/data/protocol.json)
+  - [protocol.min.json](https://static.qubic.org/v1/general/data/protocol.min.json)
+
+  Core protocol definitions. Currently contains:
+
+  **`transaction_input_types`** — Protocol-level transaction input types. These apply when a transaction is sent to any address (not smart contract procedures).
+  | Field | Type | Description |
+  |---|---|---|
+  | `id` | number | Input type ID |
+  | `label` | string | Human-readable label (e.g., `Transfer`, `Mining Solution`) |
 
 - **Bundle (All files combined)**
   - [bundle.json](https://static.qubic.org/v1/general/data/bundle.json)
