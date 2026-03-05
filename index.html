@@ -361,6 +361,7 @@
                         <li><a href="#exchanges">Exchanges</a></li>
                         <li><a href="#tokens">Tokens</a></li>
                         <li><a href="#address-labels">Address Labels</a></li>
+                        <li><a href="#protocol">Protocol</a></li>
                         <li><a href="#bundle">Bundle</a></li>
                     </ul>
                 </li>
@@ -372,6 +373,13 @@
                         <li><a href="#terms">Terms of Service</a></li>
                     </ul>
                 </li>
+                <li>
+                    <a href="#explorer-app">Explorer App Data</a>
+                    <ul>
+                        <li><a href="#token-categories">Token Categories</a></li>
+                        <li><a href="#explorer-locales">Locales</a></li>
+                    </ul>
+                </li>
             </ul>
         </nav>
 
@@ -379,13 +387,16 @@
             <h2>General Data (Shared)</h2>
 
             <p class="description">Shared data resources available for all applications including smart contracts,
-                exchanges, tokens, and address labels.</p>
+                exchanges, tokens, and address labels. Each file is available in two formats:
+                <strong>.json</strong> (pretty-printed, human-readable) and
+                <strong>.min.json</strong> (minified, optimized for bandwidth).</p>
             <div class="base-url">https://static.qubic.org/v1/general/data/</div>
 
             <div class="endpoint-group" id="smart-contracts">
                 <h3>Smart Contracts</h3>
                 <p class="description">Comprehensive list of Qubic smart contracts including names, indexes, procedures,
-                    GitHub source links, and addresses.</p>
+                    GitHub source links, and addresses. This data is automatically updated weekly from the
+                    <a href="https://github.com/qubic/core" target="_blank" style="color: #CCFCFF; text-decoration: underline;">qubic-core</a> repository.</p>
                 <ul class="endpoints">
                     <li><a href="v1/general/data/smart_contracts.json" target="_blank">smart_contracts.json</a></li>
                     <li><a href="v1/general/data/smart_contracts.min.json" target="_blank">smart_contracts.min.json</a>
@@ -426,9 +437,18 @@
                 </ul>
             </div>
 
+            <div class="endpoint-group" id="protocol">
+                <h3>Protocol</h3>
+                <p class="description">Core protocol definitions such as transaction input types.</p>
+                <ul class="endpoints">
+                    <li><a href="v1/general/data/protocol.json" target="_blank">protocol.json</a></li>
+                    <li><a href="v1/general/data/protocol.min.json" target="_blank">protocol.min.json</a></li>
+                </ul>
+            </div>
+
             <div class="endpoint-group" id="bundle">
                 <h3>Bundle</h3>
-                <p class="description">All general data files combined into a single file for convenience.</p>
+                <p class="description">All general data files merged into a single file. Use this when you need all data in one request instead of fetching each file individually.</p>
                 <ul class="endpoints">
                     <li><a href="v1/general/data/bundle.json" target="_blank">bundle.json</a></li>
                     <li><a href="v1/general/data/bundle.min.json" target="_blank">bundle.min.json</a></li>
@@ -485,6 +505,60 @@
                 <p class="description">Terms and conditions for the Qubic Wallet application.</p>
                 <ul class="endpoints">
                     <li><a href="v1/wallet-app/terms/en.html" target="_blank">terms/en.html (English)</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section" id="explorer-app">
+            <h2>Explorer App Data</h2>
+
+            <p class="description">Product-specific data for the Qubic Explorer application.</p>
+
+            <div class="base-url">v1/explorer/</div>
+
+            <div class="warning-box">
+                <h3>⚠️ IMPORTANT WARNING - Internal Use Only</h3>
+                <p>The <strong>explorer</strong> data is <strong>NOT intended for public consumption or third-party
+                        use</strong>. This data is maintained <strong>exclusively for the official Qubic Explorer
+                        application</strong>.</p>
+                <ul>
+                    <li><strong>No stability guarantee</strong> - Breaking changes may occur at any time without notice
+                    </li>
+                    <li><strong>No support</strong> - We do not provide support for third-party usage</li>
+                    <li><strong>No responsibility</strong> - We are NOT responsible for issues arising from third-party
+                        use</li>
+                    <li><strong>No API contract</strong> - Structure and content may change without warning</li>
+                </ul>
+                <p><strong>If you need this data:</strong> Fork the repository and maintain your own copy. You assume
+                    all risks.</p>
+            </div>
+
+            <div class="endpoint-group" id="token-categories">
+                <h3>Token Categories</h3>
+                <p class="description">Configuration for categorizing tokens using regex rules. Each category can define
+                    <code>nameRegex</code> and/or <code>issuerRegex</code> patterns. By default, if both are specified,
+                    both must match (AND logic). Add <code>matchAll: false</code> if either pattern matching is
+                    sufficient (OR logic).</p>
+                <ul class="endpoints">
+                    <li><a href="v1/explorer/token_categories.json" target="_blank">token_categories.json</a></li>
+                </ul>
+            </div>
+
+            <div class="endpoint-group" id="explorer-locales">
+                <h3>Locales</h3>
+                <ul class="endpoints">
+                    <li><a href="v1/explorer/locales/en.json" target="_blank">locales/en.json (English)</a></li>
+                    <li><a href="v1/explorer/locales/de.json" target="_blank">locales/de.json (German)</a></li>
+                    <li><a href="v1/explorer/locales/es.json" target="_blank">locales/es.json (Spanish)</a></li>
+                    <li><a href="v1/explorer/locales/fr.json" target="_blank">locales/fr.json (French)</a></li>
+                    <li><a href="v1/explorer/locales/ru.json" target="_blank">locales/ru.json (Russian)</a></li>
+                    <li><a href="v1/explorer/locales/tr.json" target="_blank">locales/tr.json (Turkish)</a></li>
+                    <li><a href="v1/explorer/locales/zh.json" target="_blank">locales/zh.json (Chinese)</a></li>
+                    <li><a href="v1/explorer/locales/ar.json" target="_blank">locales/ar.json (Arabic)</a></li>
+                    <li><a href="v1/explorer/locales/ja.json" target="_blank">locales/ja.json (Japanese)</a></li>
+                    <li><a href="v1/explorer/locales/pt.json" target="_blank">locales/pt.json (Portuguese)</a></li>
+                    <li><a href="v1/explorer/locales/vi.json" target="_blank">locales/vi.json (Vietnamese)</a></li>
+                    <li><a href="v1/explorer/locales/nl.json" target="_blank">locales/nl.json (Dutch)</a></li>
                 </ul>
             </div>
         </section>

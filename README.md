@@ -7,10 +7,11 @@ This repository provides static data and assets related to Qubic blockchain. It 
 ### General Data (Shared)
 Available at: **https://static.qubic.org/v1/general/data/**
 
-- **Smart contracts** — names, indexes, procedures, GitHub source links, and addresses
+- **Smart contracts** — names, indexes, procedures (with fees), epoch info, GitHub source links, and addresses
 - **Exchanges** — known trading platforms and their Qubic addresses
 - **Tokens** — additional token information
 - **Address labels** — relevant Qubic addresses
+- **Protocol** — core protocol definitions (transaction input types, etc.)
 
 ### Product-Specific Data
 
@@ -44,6 +45,29 @@ Base URL: `https://static.qubic.org/v1/general/data/`
   - [smart_contracts.json](https://static.qubic.org/v1/general/data/smart_contracts.json)
   - [smart_contracts.min.json](https://static.qubic.org/v1/general/data/smart_contracts.min.json)
 
+  **Fields per contract:**
+  | Field | Type | Description |
+  |---|---|---|
+  | `filename` | string | Source file name (e.g., `Qx.h`) |
+  | `name` | string | Contract name as defined in qubic-core (e.g., `QX`) |
+  | `label` | string | Human-readable label (e.g., `QVault`, `General Quorum Proposal`) |
+  | `githubUrl` | string | Link to the contract source file on GitHub |
+  | `contractIndex` | number | Unique contract index |
+  | `address` | string | 60-character Qubic identity address |
+  | `firstUseEpoch` | number | Epoch when the contract becomes active |
+  | `sharesAuctionEpoch` | number | Epoch when IPO shares auction starts (`firstUseEpoch - 1`) |
+  | `allowTransferShares` | boolean | Whether the contract allows share transfers via `PRE_ACQUIRE_SHARES` |
+  | `procedures` | array | List of public procedures (see below) |
+
+  **Fields per procedure:**
+  | Field | Type | Description |
+  |---|---|---|
+  | `id` | number | Procedure ID |
+  | `name` | string | Human-readable procedure name |
+  | `fee` | number (optional) | Fee in qus. See note below. |
+
+  > **About the `fee` field:** Fees are currently extracted for the following procedures: `Transfer Share Management Rights`, `Revoke Asset Management Rights`, and `Transfer Share Ownership and Possession`. The fee is included only when it can be resolved to a fixed value from the source code. If a procedure does not have a `fee` field, it does not necessarily mean it is free — the fee may be determined dynamically at execution time (e.g., fetched from another contract or calculated based on state).
+
 - **Exchanges**
   - [exchanges.json](https://static.qubic.org/v1/general/data/exchanges.json)
   - [exchanges.min.json](https://static.qubic.org/v1/general/data/exchanges.min.json)
@@ -56,9 +80,30 @@ Base URL: `https://static.qubic.org/v1/general/data/`
   - [address_labels.json](https://static.qubic.org/v1/general/data/address_labels.json)
   - [address_labels.min.json](https://static.qubic.org/v1/general/data/address_labels.min.json)
 
+- **Protocol**
+  - [protocol.json](https://static.qubic.org/v1/general/data/protocol.json)
+  - [protocol.min.json](https://static.qubic.org/v1/general/data/protocol.min.json)
+
+  Core protocol definitions. Currently contains:
+
+  **`transaction_input_types`** — Protocol-level transaction input types. These apply when a transaction is sent to any address (not smart contract procedures).
+  | Field | Type | Description |
+  |---|---|---|
+  | `id` | number | Input type ID |
+  | `label` | string | Human-readable label (e.g., `Transfer`, `Mining Solution`) |
+
 - **Bundle (All files combined)**
   - [bundle.json](https://static.qubic.org/v1/general/data/bundle.json)
   - [bundle.min.json](https://static.qubic.org/v1/general/data/bundle.min.json)
+
+### File Formats
+
+Each JSON file is available in two formats:
+
+- **`.json`** — Pretty-printed with indentation, human-readable
+- **`.min.json`** — Minified (no whitespace), optimized for bandwidth
+
+The **bundle** files combine all data files into a single file for convenience, useful when you need all data in one request.
 
 - **Version Tracking**
   - [version.json](https://static.qubic.org/v1/general/data/version.json) - Contains file hashes and sizes for cache invalidation
@@ -190,6 +235,18 @@ Semantic-release automatically:
 - Generates changelogs
 - Triggers deployments
 
+### Automated Smart Contracts Updates
+
+Smart contract data is automatically refreshed every **Wednesday at 14:00 UTC** via a scheduled GitHub Action workflow.
+
+**How it works:**
+1. The workflow runs `scripts/update_smart_contracts.py` which fetches the latest contract data from the [qubic-core](https://github.com/qubic/core) repository
+2. If changes are detected (new contracts, updated procedures, etc.), a PR is automatically created to the `main` branch
+3. Once merged, a new release is created and deployed to production
+4. After the release, merge `main` back to `dev` and `staging` to keep branches in sync
+
+**Manual trigger:** The workflow can also be triggered manually from the [Actions tab](../../actions/workflows/refresh-smart-contracts.yml) if an immediate update is needed.
+
 ## How to Contribute
 
 Contributions are welcome! Here's how you can help:
@@ -216,7 +273,7 @@ Contributions are welcome! Here's how you can help:
 
 **Smart Contract Custom Data**
 - Add custom fields or metadata to existing smart contracts in `data/smart_contracts.json`
-- Note: Core fields (name, contractIndex, address, procedures) are auto-generated. Open an Issue for corrections to these fields rather than submitting PRs
+- Note: Auto-generated fields (`name`, `contractIndex`, `address`, `githubUrl`, `firstUseEpoch`, `sharesAuctionEpoch`, `allowTransferShares`, `procedures` including `fee`) are refreshed few hours after the beginning of each epoch. Open an Issue for corrections to these fields rather than submitting PRs
 
 ### Submitting Changes
 
